@@ -11,17 +11,19 @@ from paths import CLEANED_CSV, DATA_DIR, RAW_CSV
 from train import train_model
 from utils import get_eda_summary, handle_missing_values
 
+# ---------------- LOGGING ---------------- #
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
 )
 logger = logging.getLogger("neurotrain")
 
-# Model cache
+# ---------------- MODEL CACHE ---------------- #
 trained_model = None
 model_params = None
 
 
+# ---------------- LIFESPAN ---------------- #
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     os.makedirs(DATA_DIR, exist_ok=True)
@@ -32,15 +34,16 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="NeuroTrain Lab API", lifespan=lifespan)
 
+# ---------------- CORS ---------------- #
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # ✅ allow frontend (Vercel)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-
+# ---------------- ROOT ---------------- #
 @app.get("/")
 def read_root():
     return {"status": "API running", "service": "NeuroTrain Lab"}
@@ -48,10 +51,10 @@ def read_root():
 
 @app.get("/health")
 def health():
-    """Render / load-balancer friendly health check."""
     return {"status": "ok"}
 
 
+# ---------------- UPLOAD ---------------- #
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
     try:
@@ -80,13 +83,15 @@ async def upload_file(file: UploadFile = File(...)):
         return {"error": f"Upload failed: {str(e)}"}
 
 
+# ---------------- CLEAN ---------------- #
 @app.post("/clean")
 async def clean_data(method: str = "mean"):
     try:
         logger.info("Clean request: method=%s", method)
-        df = pd.read_csv(RAW_CSV)
 
+        df = pd.read_csv(RAW_CSV)
         df_clean = handle_missing_values(df, method=method)
+
         df_clean.to_csv(CLEANED_CSV, index=False)
 
         return {
@@ -100,6 +105,7 @@ async def clean_data(method: str = "mean"):
         return {"error": f"Data cleaning failed: {str(e)}"}
 
 
+# ---------------- TRAIN ---------------- #
 @app.post("/train")
 async def train_endpoint(
     model_type: str = "linear",
@@ -121,8 +127,10 @@ async def train_endpoint(
     }
 
     try:
+        # ✅ Train only if params changed (cache optimization)
         if trained_model is None or model_params != current_params:
-            logger.info("Training: model_type=%s target_col=%s", model_type, target_col)
+            logger.info("Training started | model=%s target=%s", model_type, target_col)
+
             results = train_model(
                 model_type=model_type,
                 target_col=target_col,
@@ -134,8 +142,9 @@ async def train_endpoint(
 
             trained_model = results
             model_params = current_params
+
         else:
-            logger.info("Returning cached training result for same parameters")
+            logger.info("Using cached model result")
             results = trained_model
 
         return results
@@ -144,5 +153,5 @@ async def train_endpoint(
         logger.exception("Training failed")
         return {
             "error": str(e),
-            "message": "Training failed. Check if data is cleaned and target column exists.",
+            "message": "Training failed. Check cleaned data & target column.",
         }

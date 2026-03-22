@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Button } from "./ui/Button";
+import BASE_URL from "../config";
 
-function UploadForm({ onUploadSuccess, apiBaseUrl, onLoadingChange }) {
+function UploadForm({ onUploadSuccess, onLoadingChange }) {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -28,7 +29,7 @@ function UploadForm({ onUploadSuccess, apiBaseUrl, onLoadingChange }) {
     setBusy(true);
 
     try {
-      const response = await axios.post(`${apiBaseUrl}/upload`, formData, {
+      const response = await axios.post(`${BASE_URL}/upload`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -62,9 +63,8 @@ function UploadForm({ onUploadSuccess, apiBaseUrl, onLoadingChange }) {
           type="file"
           accept=".csv"
           onChange={handleFileChange}
-          aria-label="Choose CSV file"
         />
-        <Button variant="secondary" onClick={handleUpload} disabled={loading} loading={loading}>
+        <Button onClick={handleUpload} disabled={loading} loading={loading}>
           {loading ? "Uploading…" : "Upload CSV"}
         </Button>
       </div>

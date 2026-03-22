@@ -1,0 +1,35 @@
+.ntl-topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: var(--topbar-height);
+  padding: 0.75rem 0 1.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 1.25rem;
+}
+
+.ntl-topbar__titles {
+  min-width: 0;
+}
+
+.ntl-topbar__title {
+  margin: 0;
+  font-size: clamp(1.35rem, 2.5vw, 1.65rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ntl-topbar__tagline {
+  margin: 0.35rem 0 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}

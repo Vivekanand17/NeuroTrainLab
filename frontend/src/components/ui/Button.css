@@ -1,0 +1,101 @@
+.ntl-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-smooth),
+    opacity var(--transition-fast),
+    background var(--transition-smooth);
+}
+
+.ntl-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.ntl-btn:not(:disabled):active {
+  transform: scale(0.98);
+}
+
+.ntl-btn--sm {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.8125rem;
+}
+
+.ntl-btn--md {
+  padding: 0.65rem 1.25rem;
+  font-size: 0.9375rem;
+}
+
+.ntl-btn--lg {
+  padding: 0.85rem 1.6rem;
+  font-size: 1rem;
+}
+
+.ntl-btn--primary {
+  color: #fff;
+  background: var(--gradient-accent);
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.35);
+}
+
+.ntl-btn--primary:not(:disabled):hover {
+  box-shadow: var(--shadow-glow), 0 6px 24px rgba(59, 130, 246, 0.45);
+}
+
+.ntl-btn--secondary {
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+}
+
+.ntl-btn--secondary:not(:disabled):hover {
+  border-color: rgba(34, 211, 238, 0.35);
+  background: rgba(31, 41, 55, 0.95);
+}
+
+.ntl-btn--ghost {
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.ntl-btn--ghost:not(:disabled):hover {
+  color: var(--text-primary);
+  background: rgba(148, 163, 184, 0.08);
+  border-color: var(--border-subtle);
+}
+
+.ntl-btn--success {
+  color: #022c22;
+  background: linear-gradient(135deg, #34d399, #10b981);
+  box-shadow: 0 4px 16px rgba(52, 211, 153, 0.3);
+}
+
+.ntl-btn__spinner {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: ntl-spin 0.65s linear infinite;
+}
+
+.ntl-btn--secondary .ntl-btn__spinner {
+  border-color: rgba(148, 163, 184, 0.35);
+  border-top-color: var(--accent-cyan);
+}
+
+@keyframes ntl-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

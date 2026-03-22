@@ -1,0 +1,50 @@
+.ntl-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  transition:
+    border-color var(--transition-smooth),
+    box-shadow var(--transition-smooth);
+}
+
+.ntl-card:hover {
+  border-color: var(--border-strong);
+}
+
+.ntl-card--glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.ntl-card__header {
+  padding: 1.25rem 1.5rem 0;
+}
+
+.ntl-card__title {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.ntl-card__title-icon {
+  display: flex;
+  color: var(--accent-cyan);
+}
+
+.ntl-card__desc {
+  margin: 0.35rem 0 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.ntl-card__body {
+  padding: 1.25rem 1.5rem 1.5rem;
+}

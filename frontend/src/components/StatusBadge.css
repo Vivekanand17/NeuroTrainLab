@@ -1,0 +1,48 @@
+.ntl-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.ntl-status__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  animation: none;
+}
+
+.ntl-status--idle .ntl-status__dot {
+  background: var(--accent-cyan);
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.6);
+}
+
+.ntl-status--busy .ntl-status__dot {
+  background: var(--warning);
+  animation: ntl-pulse 1.2s ease-in-out infinite;
+}
+
+.ntl-status--success .ntl-status__dot {
+  background: var(--success);
+  box-shadow: 0 0 10px rgba(52, 211, 153, 0.5);
+}
+
+@keyframes ntl-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.85);
+  }
+}

@@ -1,0 +1,75 @@
+.ntl-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.ntl-input,
+.ntl-select {
+  width: 100%;
+  max-width: 280px;
+  padding: 0.55rem 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.ntl-input:focus,
+.ntl-select:focus {
+  border-color: rgba(139, 92, 246, 0.55);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+}
+
+.ntl-input[type="number"] {
+  max-width: 100px;
+}
+
+.ntl-file {
+  padding: 0.5rem 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.ntl-file::file-selector-button {
+  margin-right: 0.75rem;
+  padding: 0.5rem 1rem;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.ntl-file::file-selector-button:hover {
+  border-color: rgba(34, 211, 238, 0.4);
+  background: rgba(31, 41, 55, 0.9);
+}
+
+.ntl-field-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.ntl-hint {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}

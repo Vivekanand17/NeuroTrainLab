@@ -1,0 +1,108 @@
+.ntl-pipeline {
+  margin-bottom: 1.75rem;
+}
+
+.ntl-pipeline__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.25rem;
+}
+
+@media (min-width: 900px) {
+  .ntl-pipeline__list {
+    flex-wrap: nowrap;
+    gap: 0;
+  }
+}
+
+.ntl-pipeline__item {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  min-width: 140px;
+}
+
+.ntl-pipeline__step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0.75rem;
+  margin: 0;
+  font: inherit;
+  color: var(--text-muted);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    color var(--transition-smooth),
+    border-color var(--transition-smooth),
+    background var(--transition-smooth),
+    transform var(--transition-fast);
+}
+
+.ntl-pipeline__step:hover {
+  color: var(--text-secondary);
+  border-color: var(--border-strong);
+}
+
+.ntl-pipeline__step--current {
+  color: var(--text-primary);
+  background: var(--gradient-accent-soft);
+  border-color: rgba(139, 92, 246, 0.45);
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.15), var(--shadow-sm);
+}
+
+.ntl-pipeline__step--current .ntl-pipeline__icon {
+  color: var(--accent-cyan);
+  transform: scale(1.08);
+}
+
+.ntl-pipeline__step--done {
+  color: var(--text-secondary);
+  border-color: rgba(52, 211, 153, 0.25);
+}
+
+.ntl-pipeline__step--done .ntl-pipeline__icon {
+  color: var(--success);
+}
+
+.ntl-pipeline__icon {
+  display: flex;
+  transition: transform var(--transition-smooth), color var(--transition-smooth);
+}
+
+.ntl-pipeline__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+}
+
+.ntl-pipeline__connector {
+  display: none;
+  width: 1.5rem;
+  height: 2px;
+  margin: 0 0.25rem;
+  flex-shrink: 0;
+  background: var(--border-strong);
+  border-radius: 1px;
+  align-self: center;
+}
+
+.ntl-pipeline__connector--done {
+  background: linear-gradient(90deg, var(--success), rgba(52, 211, 153, 0.35));
+}
+
+@media (min-width: 900px) {
+  .ntl-pipeline__connector {
+    display: block;
+  }
+}

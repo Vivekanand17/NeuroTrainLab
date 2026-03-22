@@ -1,117 +1,138 @@
-## NEUROTRAINLAB
-## Overview
+# NeuroTrain Lab
 
-This is a web-based application designed to train machine learning models and automatically identify issues such as overfitting and underfitting using performance metrics and diagnostic logic.
+Web app to upload CSV data, clean and explore it, train regression models (Linear, Decision Tree, Random Forest), and review MSE / R² metrics with automated overfitting / underfitting diagnostics.
 
-Technology Stack
+**Stack:** FastAPI · scikit-learn · pandas · React · Recharts
 
-Backend: FastAPI
-Machine Learning Libraries: scikit-learn, pandas, numpy
-Frontend: React
+---
 
-Setup Instructions
+## Live deployment (Render)
 
-Backend Setup
+Replace these with your own URLs after you deploy:
+
+| Service | Example URL |
+|--------|-------------|
+| **Backend (API)** | `https://neurotrain-lab-api.onrender.com` |
+| **Frontend (static)** | `https://neurotrain-lab-web.onrender.com` |
+
+**Frontend environment variable (required for production):**
+
+- In the Render **Static Site** → **Environment**, set:
+  - `REACT_APP_API_URL` = your backend URL (no trailing slash), e.g. `https://neurotrain-lab-api.onrender.com`
+
+Rebuild the static site after changing env vars (Create React App bakes `REACT_APP_*` in at **build** time).
+
+---
+
+## Deploy on Render (summary)
+
+### Backend — Web Service
+
+1. New **Web Service**, connect this repo.
+2. **Root directory:** `backend`
+3. **Runtime:** Python (version from `backend/runtime.txt`, e.g. 3.10.x)
+4. **Build command:** `pip install -r requirements.txt`
+5. **Start command:** `uvicorn app:app --host 0.0.0.0 --port $PORT`
+
+Optional: use the repo root **`render.yaml`** as a [Blueprint](https://render.com/docs/infrastructure-as-code) to provision both services.
+
+- Health check path: `/health`
+- CORS is open (`allow_origins=["*"]`) for simple cross-origin access from the static frontend.
+
+### Frontend — Static Site
+
+1. New **Static Site**, same repo.
+2. **Root directory:** `frontend`
+3. **Build command:** `npm install && npm run build`
+4. **Publish directory:** `build`
+5. **Environment:** `REACT_APP_API_URL` = full HTTPS URL of your backend.
+
+For SPA routing refreshes, `render.yaml` includes a rewrite of `/*` → `/index.html`.
+
+---
+
+## Run locally
+
+### Backend
+
+```bash
 cd backend
 pip install -r requirements.txt
 uvicorn app:app --reload --host 0.0.0.0 --port 8000
+```
 
-Frontend Setup
+API: `http://localhost:8000` · OpenAPI: `http://localhost:8000/docs`
+
+### Frontend
+
+```bash
 cd frontend
 npm install
-npm run start
-
-Access the application at: http://localhost:3000
-
-Data Handling
-
-Upload dataset to /data/raw.csv
-Processed dataset will be saved at /data/cleaned.csv
-Example dataset: Salary prediction using experience, age, and education to predict salary
-Core Functionalities
-
-Data Upload and Exploration
-Upload CSV files and automatically generate summary statistics.
-
-Data Preprocessing
-Handle missing values using mean, median, or mode imputation.
-
-Model Training
-
-Train models such as Linear Regression and Decision Tree with configurable parameters.
-Model Diagnostics
-Evaluate model performance and detect overfitting or underfitting automatically.
-Experiment Logging
-Store training results, metrics, and configurations in structured JSON format.
-
-
-How to Use
-
-Upload a CSV dataset
-Perform data cleaning
-Select a model and configure hyperparameters
-Train the model
-Review evaluation metrics such as MSE and R² along with diagnostic feedback
-
-
-Weekly Learning Breakdown
-
-Week 1: Writing modular Python code using functions, files, and structured organization
-Week 2: Data preprocessing and handling missing values using pandas
-Week 3: Understanding Mean Squared Error and basic optimization concepts
-Week 4: Learning bias-variance tradeoff and identifying overfitting and underfitting
-Week 5: Performing hyperparameter tuning such as adjusting decision tree depth
-Week 6: Analyzing training performance using evaluation metrics and diagnostics
-
-## Project Structure
+npm start
 ```
-ml-diagnostics-dashboard/
+
+App: `http://localhost:3000`
+
+Optional: copy `frontend/.env.example` to `frontend/.env.local` and set `REACT_APP_API_URL=http://localhost:8000` if you prefer env-based config locally.
+
+### Build frontend (production bundle)
+
+```bash
+cd frontend
+npm install && npm run build
+```
+
+---
+
+## Using the app (datasets & training)
+
+1. **Prepare data:** CSV must include a column named **`target`** (regression target). Other columns are features.
+2. **Upload** the CSV in the UI (stored under `data/raw.csv` on the server).
+3. **Clean** data (e.g. mean imputation for missing numeric values) → writes `data/cleaned.csv`.
+4. **Train:** choose model type and hyperparameters, then **Run training**.
+5. **Analyze:** review Train / Validation / Test **MSE** and **R²**, charts, diagnostics, and (for tree-based models) feature importance.
+
+On **Render**, the service filesystem is ephemeral unless you add a **persistent disk**; for demos, upload + clean + train in one session. For durable storage, attach a disk and mount it to `data/` (advanced).
+
+---
+
+## Project structure
+
+```
 ├── backend/
-│   ├── app.py              # FastAPI endpoints
-│   ├── utils.py            # Data cleaning
-│   ├── train.py            # Model training & diagnostics
-│   └── requirements.txt
-├── frontend/
-│   ├── src/
-│   │   ├── App.js
-│   │   └── components/UploadForm.jsx
-│   └── package.json
-├── data/
-│   ├── raw.csv
-│   └── cleaned.csv
-├── logs/
-│   └── training_*.json
-├── README.md
-└── training_analysis.md
+│   ├── app.py           # FastAPI app, CORS, routes
+│   ├── paths.py         # data/ and logs/ paths (relative to repo)
+│   ├── train.py         # Training, metrics, diagnostics
+│   ├── utils.py         # Cleaning helpers
+│   ├── requirements.txt
+│   ├── runtime.txt
+│   └── Procfile         # web: uvicorn ... --port $PORT
+├── frontend/            # Create React App
+├── data/                # raw.csv / cleaned.csv (created at runtime; .csv gitignored by default)
+├── logs/                # training_*.json (gitignored)
+├── render.yaml          # Optional Render Blueprint
+└── README.md
 ```
 
-Key Learnings
+---
 
-Integrated diagnostics: Using both MSE and R² metrics together allows reliable detection of overfitting and underfitting.
-Importance of data quality: Proper cleaning and validation of datasets is essential before training any model.
+## Learning curves (roadmap)
 
-Tradeoff in model complexity: Highly complex models such as deep decision trees may overfit; simpler models often perform better on small datasets.
-Reproducibility: Consistent results are achieved by using fixed random seeds and detailed logging of experiments.
+The UI includes a **Learning curves** placeholder. A future iteration may plot score vs. training-set size to complement the current split metrics (see `training_analysis.md`).
 
-Notes on Loss Curves
+---
 
-Loss curves, which plot error over training epochs, are primarily useful for iterative training algorithms like Neural Networks.
-Since this system uses Linear Regression and Decision Trees, which complete training in a single pass, we present final metrics (train, validation, and test MSE and R²). These metrics are sufficient to evaluate overfitting or underfitting without the need for epoch-by-epoch visualization.
+## Troubleshooting
 
-Troubleshooting
+| Issue | What to check |
+|--------|----------------|
+| Frontend calls wrong API | Browser console: `[NeuroTrain Lab] API base URL: ...` — must match your backend. Redeploy static site after setting `REACT_APP_API_URL`. |
+| CORS errors | Backend should expose CORS middleware (already enabled in `app.py`). |
+| Training fails | Ensure CSV has `target`, and **Clean** ran successfully so `cleaned.csv` exists. |
+| Render sleep | Free tier spins down; first request after idle can be slow. |
 
-Cross-Origin Resource Sharing (CORS) issues: Make sure the backend allows requests from all origins by setting allow_origins=["*"].
+---
 
-Port conflicts: If React detects an occupied port, confirm the prompt to use an alternative port.
-Training errors: Ensure the CSV contains a target column and that all data has been cleaned.
-
-
-Visualization Approach
-
-Metrics presentation: Train, validation, and test metrics are displayed in tables for clear comparison.
-Rationale for skipping epoch-based loss plots: Since the models train in a single step, plotting a loss curve over epochs is not meaningful. Instead, final metrics demonstrate both bias-variance behavior and overfitting/underfitting clearly.
-Future enhancements: Consider including learning curves (performance versus dataset size) for more detailed model analysis in upcoming versions.
-
-Author
+## Author
 
 Developed for the CreativeARC Services Pvt Ltd ML Internship Program.

@@ -10,8 +10,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeRegressor
 
-# Base directory for absolute paths
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+from paths import CLEANED_CSV, LOGS_DIR
 
 
 def create_estimator(
@@ -86,8 +85,7 @@ def train_model(
     """
     Train a model and return metrics + diagnostics (+ optional feature importance for tree / RF).
     """
-    data_path = os.path.join(BASE_DIR, "../data/cleaned.csv")
-    df = pd.read_csv(data_path)
+    df = pd.read_csv(CLEANED_CSV)
 
     X = df.drop(columns=[target_col])
     y = df[target_col]
@@ -152,10 +150,9 @@ def train_model(
         "chart_data": chart_data,
     }
 
-    log_dir = os.path.join(BASE_DIR, "../logs")
-    os.makedirs(log_dir, exist_ok=True)
+    os.makedirs(LOGS_DIR, exist_ok=True)
 
-    log_filename = os.path.join(log_dir, f"training_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json")
+    log_filename = os.path.join(LOGS_DIR, f"training_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json")
     with open(log_filename, "w") as f:
         json.dump(log_data, f, indent=2)
 

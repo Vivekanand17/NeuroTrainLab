@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import UploadForm from "../components/UploadForm";
 import MetricsChart from "../components/MetricsChart";
+import { LearningCurvesPlaceholder } from "../components/LearningCurvesPlaceholder";
 import { PipelineSteps, getPipelineActiveIndex } from "../components/PipelineSteps";
 import { Card, CardBody, CardHeader, CardTitle, CardDescription } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
@@ -340,6 +341,7 @@ export default function DashboardPage({
                   <DiagnosticRow key={idx} message={msg} />
                 ))}
               </div>
+              <LearningCurvesPlaceholder />
             </CardBody>
           </Card>
         </section>

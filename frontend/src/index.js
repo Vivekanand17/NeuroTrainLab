@@ -2,7 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import API_BASE_URL from './config';
 import reportWebVitals from './reportWebVitals';
+
+// Visible in browser devtools; helps verify REACT_APP_API_URL on Render static builds
+console.info('[NeuroTrain Lab] API base URL:', API_BASE_URL);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

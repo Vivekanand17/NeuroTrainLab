@@ -1,18 +1,37 @@
+import logging
 import os
+from contextlib import asynccontextmanager
 from typing import Optional
 
 import pandas as pd
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from utils import handle_missing_values, get_eda_summary
+
+from paths import CLEANED_CSV, DATA_DIR, RAW_CSV
 from train import train_model
+from utils import get_eda_summary, handle_missing_values
 
-app = FastAPI()
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
+logger = logging.getLogger("neurotrain")
 
-# IMPORTANT: define base directory
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Model cache
+trained_model = None
+model_params = None
 
-# CORS
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    os.makedirs(DATA_DIR, exist_ok=True)
+    logger.info("NeuroTrain Lab API starting | DATA_DIR=%s", DATA_DIR)
+    yield
+    logger.info("NeuroTrain Lab API shutdown")
+
+
+app = FastAPI(title="NeuroTrain Lab API", lifespan=lifespan)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -21,30 +40,30 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Model cache
-trained_model = None
-model_params = None
-
 
 @app.get("/")
 def read_root():
-    return {"status": "API running"}
+    return {"status": "API running", "service": "NeuroTrain Lab"}
+
+
+@app.get("/health")
+def health():
+    """Render / load-balancer friendly health check."""
+    return {"status": "ok"}
 
 
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
     try:
         contents = await file.read()
+        os.makedirs(DATA_DIR, exist_ok=True)
 
-        data_dir = os.path.join(BASE_DIR, "../data")
-        os.makedirs(data_dir, exist_ok=True)
+        logger.info("Upload received: %s (%s bytes)", file.filename, len(contents))
 
-        raw_path = os.path.join(data_dir, "raw.csv")
-
-        with open(raw_path, "wb") as f:
+        with open(RAW_CSV, "wb") as f:
             f.write(contents)
 
-        df = pd.read_csv(raw_path)
+        df = pd.read_csv(RAW_CSV)
 
         eda = {
             "shape": list(df.shape),
@@ -57,20 +76,18 @@ async def upload_file(file: UploadFile = File(...)):
         return eda
 
     except Exception as e:
+        logger.exception("Upload failed")
         return {"error": f"Upload failed: {str(e)}"}
 
 
 @app.post("/clean")
 async def clean_data(method: str = "mean"):
     try:
-        raw_path = os.path.join(BASE_DIR, "../data/raw.csv")
-
-        df = pd.read_csv(raw_path)
+        logger.info("Clean request: method=%s", method)
+        df = pd.read_csv(RAW_CSV)
 
         df_clean = handle_missing_values(df, method=method)
-
-        cleaned_path = os.path.join(BASE_DIR, "../data/cleaned.csv")
-        df_clean.to_csv(cleaned_path, index=False)
+        df_clean.to_csv(CLEANED_CSV, index=False)
 
         return {
             "message": "Data cleaned successfully",
@@ -79,6 +96,7 @@ async def clean_data(method: str = "mean"):
         }
 
     except Exception as e:
+        logger.exception("Clean failed")
         return {"error": f"Data cleaning failed: {str(e)}"}
 
 
@@ -91,7 +109,6 @@ async def train_endpoint(
     n_estimators: int = 100,
     random_state: int = 42,
 ):
-
     global trained_model, model_params
 
     current_params = {
@@ -105,7 +122,7 @@ async def train_endpoint(
 
     try:
         if trained_model is None or model_params != current_params:
-
+            logger.info("Training: model_type=%s target_col=%s", model_type, target_col)
             results = train_model(
                 model_type=model_type,
                 target_col=target_col,
@@ -117,13 +134,14 @@ async def train_endpoint(
 
             trained_model = results
             model_params = current_params
-
         else:
+            logger.info("Returning cached training result for same parameters")
             results = trained_model
 
         return results
 
     except Exception as e:
+        logger.exception("Training failed")
         return {
             "error": str(e),
             "message": "Training failed. Check if data is cleaned and target column exists.",

@@ -8,6 +8,10 @@
 }
 
 .ntl-input,
+.ntl-select--wide {
+  max-width: min(100%, 420px);
+}
+
 .ntl-select {
   width: 100%;
   max-width: 280px;

@@ -87,8 +87,26 @@ def train_model(
     """
     df = pd.read_csv(CLEANED_CSV)
 
+    if target_col not in df.columns:
+        available = ", ".join(map(str, df.columns.tolist()))
+        raise ValueError(
+            f"Target column '{target_col}' not found in cleaned data. "
+            f"Available columns: {available}. Choose the correct target column in the app before training."
+        )
+
+    if len(df.columns) < 2:
+        raise ValueError(
+            "Need at least one feature column and one target column. "
+            f"Your data has only: {list(df.columns)}."
+        )
+
     X = df.drop(columns=[target_col])
     y = df[target_col]
+
+    if X.shape[1] == 0:
+        raise ValueError(
+            f"After removing target '{target_col}', there are no feature columns left to train on."
+        )
 
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=test_size, random_state=random_state
@@ -137,6 +155,7 @@ def train_model(
     log_data = {
         "timestamp": datetime.now().isoformat(),
         "model_type": model_type,
+        "target_col": target_col,
         "hyperparameters": hyperparameters,
         "metrics": {
             "train_mse": float(train_mse),

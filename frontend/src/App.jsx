@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import DashboardLayout from "./layouts/DashboardLayout";
 import { Topbar } from "./components/Topbar";
@@ -17,12 +17,21 @@ function App() {
   const [cleaning, setCleaning] = useState(false);
   const [cleaned, setCleaned] = useState(false);
   const [uploadBusy, setUploadBusy] = useState(false);
+  const [targetCol, setTargetCol] = useState("target");
 
   const handleUploadSuccess = (edaData) => {
     setEda(edaData);
     setCleaned(false);
     setTrainingResults(null);
   };
+
+  useEffect(() => {
+    if (!eda?.columns?.length) return;
+    const cols = eda.columns;
+    setTargetCol((prev) =>
+      cols.includes(prev) ? prev : cols.includes("target") ? "target" : cols[cols.length - 1]
+    );
+  }, [eda]);
 
   const handleClean = async () => {
     setCleaning(true);
@@ -49,7 +58,7 @@ function App() {
     try {
       const params = {
         model_type: modelType,
-        target_col: "target",
+        target_col: targetCol,
         min_samples_leaf: 1,
         random_state: randomState,
         n_estimators: nEstimators,
@@ -106,6 +115,8 @@ function App() {
         onUploadLoadingChange={setUploadBusy}
         handleClean={handleClean}
         handleTrain={handleTrain}
+        targetCol={targetCol}
+        setTargetCol={setTargetCol}
         apiBaseUrl={API_BASE_URL}
       />
     </DashboardLayout>

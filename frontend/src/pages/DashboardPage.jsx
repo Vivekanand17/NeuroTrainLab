@@ -67,6 +67,8 @@ export default function DashboardPage({
   onUploadLoadingChange,
   handleClean,
   handleTrain,
+  targetCol,
+  setTargetCol,
   apiBaseUrl,
 }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -129,7 +131,8 @@ export default function DashboardPage({
           <div className="ntl-empty__glow" aria-hidden />
           <h3 className="ntl-empty__title">Start with your dataset</h3>
           <p className="ntl-empty__text">
-            Upload a CSV with a <span className="mono">target</span> column to run cleaning, training, and diagnostics.
+            Upload a CSV, then choose which column to predict (defaults to <span className="mono">target</span> if
+            present, otherwise the last column).
           </p>
         </div>
       ) : null}
@@ -182,6 +185,26 @@ export default function DashboardPage({
             </CardHeader>
             <CardBody>
               <div className="ntl-field-row">
+                <div>
+                  <label className="ntl-label" htmlFor="target-col">
+                    Target column (what to predict)
+                  </label>
+                  <select
+                    id="target-col"
+                    className="ntl-select ntl-select--wide"
+                    value={targetCol}
+                    onChange={(e) => setTargetCol(e.target.value)}
+                  >
+                    {(eda?.columns || []).map((col) => (
+                      <option key={col} value={col}>
+                        {col}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="ntl-hint">
+                    Must match a column in your cleaned CSV. All other columns are used as features.
+                  </span>
+                </div>
                 <div>
                   <label className="ntl-label" htmlFor="model-type">
                     Model type
@@ -290,6 +313,11 @@ export default function DashboardPage({
                     <span className="muted">Type</span>{" "}
                     {MODEL_LABELS[trainingResults.model_type] || trainingResults.model_type}
                   </p>
+                  {trainingResults.target_col ? (
+                    <p className="ntl-subcard__line">
+                      <span className="muted">Target column</span> {trainingResults.target_col}
+                    </p>
+                  ) : null}
                   {formatHyperparameterRows(trainingResults.model_type, trainingResults.hyperparameters).map((row) => (
                     <p key={row.key} className="ntl-subcard__line">
                       <span className="muted">{row.label}</span> {row.value}

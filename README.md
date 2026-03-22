@@ -2,7 +2,7 @@
 
 Web app to upload CSV data, clean and explore it, train regression models (Linear, Decision Tree, Random Forest), and review MSE / R² metrics with automated overfitting / underfitting diagnostics.
 
-**Stack:** FastAPI · scikit-learn · pandas · React · Recharts
+**Stack:** FastAPI · scikit-learn · pandas · **React + Vite** · Recharts
 
 ---
 
@@ -18,9 +18,9 @@ Replace these with your own URLs after you deploy:
 **Frontend environment variable (required for production):**
 
 - In the Render **Static Site** → **Environment**, set:
-  - `REACT_APP_API_URL` = your backend URL (no trailing slash), e.g. `https://neurotrain-lab-api.onrender.com`
+  - `VITE_API_URL` = your backend URL (no trailing slash), e.g. `https://neurotrain-lab-api.onrender.com`
 
-Rebuild the static site after changing env vars (Create React App bakes `REACT_APP_*` in at **build** time).
+Rebuild the static site after changing env vars (Vite bakes `VITE_*` variables in at **build** time).
 
 ---
 
@@ -44,8 +44,8 @@ Optional: use the repo root **`render.yaml`** as a [Blueprint](https://render.co
 1. New **Static Site**, same repo.
 2. **Root directory:** `frontend`
 3. **Build command:** `npm install && npm run build`
-4. **Publish directory:** `build`
-5. **Environment:** `REACT_APP_API_URL` = full HTTPS URL of your backend.
+4. **Publish directory:** `dist` (Vite output)
+5. **Environment:** `VITE_API_URL` = full HTTPS URL of your backend.
 
 For SPA routing refreshes, `render.yaml` includes a rewrite of `/*` → `/index.html`.
 
@@ -63,17 +63,17 @@ uvicorn app:app --reload --host 0.0.0.0 --port 8000
 
 API: `http://localhost:8000` · OpenAPI: `http://localhost:8000/docs`
 
-### Frontend
+### Frontend (Vite)
 
 ```bash
 cd frontend
 npm install
-npm start
+npm run dev
 ```
 
-App: `http://localhost:3000`
+App: `http://localhost:3000` (configured in `vite.config.js`)
 
-Optional: copy `frontend/.env.example` to `frontend/.env.local` and set `REACT_APP_API_URL=http://localhost:8000` if you prefer env-based config locally.
+Optional: copy `frontend/.env.example` to `frontend/.env.local` and set `VITE_API_URL=http://localhost:8000`.
 
 ### Build frontend (production bundle)
 
@@ -81,6 +81,8 @@ Optional: copy `frontend/.env.example` to `frontend/.env.local` and set `REACT_A
 cd frontend
 npm install && npm run build
 ```
+
+Output folder: **`frontend/dist/`**
 
 ---
 
@@ -107,7 +109,7 @@ On **Render**, the service filesystem is ephemeral unless you add a **persistent
 │   ├── requirements.txt
 │   ├── runtime.txt
 │   └── Procfile         # web: uvicorn ... --port $PORT
-├── frontend/            # Create React App
+├── frontend/            # Vite + React (entry: index.html, src/main.jsx)
 ├── data/                # raw.csv / cleaned.csv (created at runtime; .csv gitignored by default)
 ├── logs/                # training_*.json (gitignored)
 ├── render.yaml          # Optional Render Blueprint
@@ -126,7 +128,7 @@ The UI includes a **Learning curves** placeholder. A future iteration may plot s
 
 | Issue | What to check |
 |--------|----------------|
-| Frontend calls wrong API | Browser console: `[NeuroTrain Lab] API base URL: ...` — must match your backend. Redeploy static site after setting `REACT_APP_API_URL`. |
+| Frontend calls wrong API | Browser console: `[NeuroTrain Lab] API base URL: ...` — must match your backend. Redeploy static site after setting `VITE_API_URL`. |
 | CORS errors | Backend should expose CORS middleware (already enabled in `app.py`). |
 | Training fails | Ensure CSV has `target`, and **Clean** ran successfully so `cleaned.csv` exists. |
 | Render sleep | Free tier spins down; first request after idle can be slow. |

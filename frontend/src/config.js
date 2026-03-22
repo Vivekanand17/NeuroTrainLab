@@ -1,7 +1,7 @@
 /**
- * Production: set REACT_APP_API_URL in Render (Static Site) environment variables
- * to your FastAPI service URL, e.g. https://neurotrain-lab-api.onrender.com
+ * Local: optional `.env` / `.env.local` with VITE_API_URL=http://localhost:8000
+ * Render: set VITE_API_URL to your FastAPI URL (baked in at build time).
  */
-const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 export default API_BASE_URL;

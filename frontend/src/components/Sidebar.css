@@ -28,8 +28,8 @@
   height: 40px;
   border-radius: var(--radius-sm);
   background: var(--gradient-accent-soft);
-  color: var(--accent-cyan);
-  border: 1px solid rgba(139, 92, 246, 0.25);
+  color: var(--accent-orange);
+  border: 1px solid rgba(255, 152, 0, 0.3);
 }
 
 .ntl-sidebar__name {
@@ -86,13 +86,13 @@
 
 .ntl-sidebar__link:hover {
   color: var(--text-primary);
-  background: rgba(148, 163, 184, 0.08);
+  background: rgba(255, 152, 0, 0.08);
 }
 
 .ntl-sidebar__link-icon {
   display: flex;
-  color: var(--accent-blue);
-  opacity: 0.85;
+  color: var(--accent-orange);
+  opacity: 0.9;
 }
 
 .ntl-sidebar__footer {

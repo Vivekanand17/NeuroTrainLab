@@ -55,12 +55,12 @@
 .ntl-pipeline__step--current {
   color: var(--text-primary);
   background: var(--gradient-accent-soft);
-  border-color: rgba(139, 92, 246, 0.45);
-  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.15), var(--shadow-sm);
+  border-color: rgba(255, 152, 0, 0.5);
+  box-shadow: 0 0 0 1px rgba(255, 152, 0, 0.2), var(--shadow-sm);
 }
 
 .ntl-pipeline__step--current .ntl-pipeline__icon {
-  color: var(--accent-cyan);
+  color: var(--accent-orange);
   transform: scale(1.08);
 }
 

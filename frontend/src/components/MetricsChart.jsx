@@ -11,8 +11,8 @@ import {
 } from "recharts";
 import "./MetricsChart.css";
 
-const axisStyle = { fill: "#94a3b8", fontSize: 11 };
-const gridColor = "rgba(148, 163, 184, 0.12)";
+const axisStyle = { fill: "#d4d4d4", fontSize: 11 };
+const gridColor = "rgba(255, 152, 0, 0.12)";
 
 function MetricsChart({ trainingResults }) {
   if (!trainingResults || !trainingResults.chart_data || !trainingResults.chart_data.metrics) {
@@ -50,7 +50,7 @@ function MetricsChart({ trainingResults }) {
       return (
         <div className="ntl-chart-tooltip">
           <p className="ntl-chart-tooltip__title">{row.feature}</p>
-          <p className="ntl-chart-tooltip__row" style={{ color: "#a78bfa" }}>
+          <p className="ntl-chart-tooltip__row" style={{ color: "#ffb74d" }}>
             Importance: {typeof row.importance === "number" ? row.importance.toFixed(4) : row.importance}
           </p>
         </div>
@@ -78,8 +78,8 @@ function MetricsChart({ trainingResults }) {
             <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
             <XAxis dataKey="name" tick={axisStyle} axisLine={{ stroke: gridColor }} tickLine={false} />
             <YAxis tick={axisStyle} axisLine={false} tickLine={false} />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(139, 92, 246, 0.08)" }} />
-            <Legend wrapperStyle={{ color: "#94a3b8", fontSize: 12 }} />
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(255, 152, 0, 0.08)" }} />
+            <Legend wrapperStyle={{ color: "#d4d4d4", fontSize: 12 }} />
             <Bar dataKey="MSE" name="MSE" fill="url(#ntlMseGrad)" radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
@@ -91,14 +91,14 @@ function MetricsChart({ trainingResults }) {
           <BarChart data={data} margin={{ top: 16, right: 16, left: 4, bottom: 4 }}>
             <defs>
               <linearGradient id="ntlR2Grad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#22d3ee" />
-                <stop offset="100%" stopColor="#059669" />
+                <stop offset="0%" stopColor="#ffb74d" />
+                <stop offset="100%" stopColor="#ff9800" />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
             <XAxis dataKey="name" tick={axisStyle} axisLine={{ stroke: gridColor }} tickLine={false} />
             <YAxis domain={[0, 1]} tick={axisStyle} axisLine={false} tickLine={false} />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(34, 211, 238, 0.08)" }} />
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(255, 152, 0, 0.08)" }} />
             <Legend wrapperStyle={{ color: "#94a3b8", fontSize: 12 }} />
             <Bar dataKey="R2" name="R²" fill="url(#ntlR2Grad)" radius={[6, 6, 0, 0]} />
           </BarChart>
@@ -116,8 +116,8 @@ function MetricsChart({ trainingResults }) {
             >
               <defs>
                 <linearGradient id="ntlFiGrad" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#8b5cf6" />
-                  <stop offset="100%" stopColor="#22d3ee" />
+                  <stop offset="0%" stopColor="#f57c00" />
+                  <stop offset="100%" stopColor="#ffb74d" />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke={gridColor} horizontal />
@@ -130,7 +130,7 @@ function MetricsChart({ trainingResults }) {
                 axisLine={false}
                 tickLine={false}
               />
-              <Tooltip content={<FiTooltip />} cursor={{ fill: "rgba(139, 92, 246, 0.06)" }} />
+              <Tooltip content={<FiTooltip />} cursor={{ fill: "rgba(255, 152, 0, 0.06)" }} />
               <Bar dataKey="importance" name="Importance" fill="url(#ntlFiGrad)" radius={[0, 6, 6, 0]} />
             </BarChart>
           </ResponsiveContainer>

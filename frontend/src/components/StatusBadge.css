@@ -9,7 +9,7 @@
   text-transform: uppercase;
   border-radius: 999px;
   border: 1px solid var(--border-subtle);
-  background: rgba(15, 23, 42, 0.6);
+  background: rgba(17, 17, 17, 0.8);
 }
 
 .ntl-status__dot {
@@ -21,8 +21,8 @@
 }
 
 .ntl-status--idle .ntl-status__dot {
-  background: var(--accent-cyan);
-  box-shadow: 0 0 10px rgba(34, 211, 238, 0.6);
+  background: var(--accent-orange);
+  box-shadow: 0 0 10px rgba(255, 152, 0, 0.6);
 }
 
 .ntl-status--busy .ntl-status__dot {

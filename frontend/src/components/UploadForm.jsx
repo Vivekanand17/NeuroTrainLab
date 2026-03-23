@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Button } from "./ui/Button";
-import BASE_URL from "../config";
+import API_BASE_URL from "../config";
 
 function UploadForm({ onUploadSuccess, onLoadingChange }) {
   const [file, setFile] = useState(null);
@@ -29,16 +29,19 @@ function UploadForm({ onUploadSuccess, onLoadingChange }) {
     setBusy(true);
 
     try {
-      const response = await axios.post(`${BASE_URL}/upload`, formData, {
+      const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
 
-      if (response && response.data) {
+      if (response?.data?.error) {
+        alert(`❌ Upload failed: ${response.data.error}`);
+        return;
+      }
+      if (response?.data) {
         onUploadSuccess?.(response.data);
       }
-
       alert("✅ File uploaded successfully!");
     } catch (error) {
       console.error("Upload failed:", error);

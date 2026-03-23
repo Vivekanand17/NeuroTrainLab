@@ -41,13 +41,13 @@
 }
 
 .ntl-btn--primary {
-  color: #fff;
+  color: #0a0a0a;
   background: var(--gradient-accent);
-  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.35);
+  box-shadow: 0 4px 20px rgba(255, 152, 0, 0.35);
 }
 
 .ntl-btn--primary:not(:disabled):hover {
-  box-shadow: var(--shadow-glow), 0 6px 24px rgba(59, 130, 246, 0.45);
+  box-shadow: var(--shadow-glow), 0 6px 24px rgba(255, 152, 0, 0.45);
 }
 
 .ntl-btn--secondary {
@@ -57,8 +57,8 @@
 }
 
 .ntl-btn--secondary:not(:disabled):hover {
-  border-color: rgba(34, 211, 238, 0.35);
-  background: rgba(31, 41, 55, 0.95);
+  border-color: rgba(255, 152, 0, 0.5);
+  background: rgba(30, 30, 30, 0.95);
 }
 
 .ntl-btn--ghost {
@@ -74,9 +74,9 @@
 }
 
 .ntl-btn--success {
-  color: #022c22;
-  background: linear-gradient(135deg, #34d399, #10b981);
-  box-shadow: 0 4px 16px rgba(52, 211, 153, 0.3);
+  color: #0a0a0a;
+  background: linear-gradient(135deg, #66bb6a, #4caf50);
+  box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
 }
 
 .ntl-btn__spinner {
@@ -90,8 +90,8 @@
 }
 
 .ntl-btn--secondary .ntl-btn__spinner {
-  border-color: rgba(148, 163, 184, 0.35);
-  border-top-color: var(--accent-cyan);
+  border-color: rgba(255, 152, 0, 0.3);
+  border-top-color: var(--accent-orange);
 }
 
 @keyframes ntl-spin {

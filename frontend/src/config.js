@@ -1,8 +1,7 @@
 /**
- * Central API Configuration
- * Uses environment variable if available, otherwise falls back to Render URL
+ * Local: VITE_API_URL in .env or .env.local (default http://localhost:8000)
+ * Render: set VITE_API_URL to your FastAPI URL before building.
  */
-const BASE_URL =
-  import.meta.env.VITE_API_URL || "https://neurotrainlab.onrender.com";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
-export default BASE_URL;
+export default API_BASE_URL;

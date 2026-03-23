@@ -71,6 +71,20 @@
   margin-bottom: 1rem;
 }
 
+.ntl-field-row--train-head {
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.ntl-field-row--train-head .ntl-field--target {
+  flex: 1 1 260px;
+  min-width: 0;
+}
+
+.ntl-field-row--train-head .ntl-field--model {
+  flex: 0 0 240px;
+}
+
 .ntl-hint {
   display: block;
   margin-top: 0.35rem;

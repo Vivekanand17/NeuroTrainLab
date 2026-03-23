@@ -179,8 +179,8 @@ export default function DashboardPage({
               <CardDescription>Choose algorithm and hyperparameters, then run training.</CardDescription>
             </CardHeader>
             <CardBody>
-              <div className="ntl-field-row">
-                <div>
+              <div className="ntl-field-row ntl-field-row--train-head">
+                <div className="ntl-field ntl-field--target">
                   <label className="ntl-label" htmlFor="target-col">Target column (what to predict)</label>
                   <select
                     id="target-col"
@@ -194,7 +194,7 @@ export default function DashboardPage({
                   </select>
                   <span className="ntl-hint">All other columns are used as features.</span>
                 </div>
-                <div>
+                <div className="ntl-field ntl-field--model">
                   <label className="ntl-label" htmlFor="model-type">Model type</label>
                   <select
                     id="model-type"

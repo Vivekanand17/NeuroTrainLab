@@ -48,7 +48,7 @@ export function Sidebar() {
           <span>Upload → Clean → Train → Analyze</span>
         </div>
         <div className="ntl-sidebar__foot-card ntl-sidebar__foot-card--brand">
-          © 2026 NeuroTrainLab | Developed by Vivtech.ai
+          © 2026 NeuroTrain Lab | Developed by Vivtech.ai
         </div>
       </div>
     </aside>

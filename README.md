@@ -138,3 +138,7 @@ The UI includes a **Learning curves** placeholder. A future iteration may plot s
 ## Author
 
 Developed for the CreativeARC Services Pvt Ltd ML Internship Program.
+
+## Author
+
+Developed by Vivtech.ai

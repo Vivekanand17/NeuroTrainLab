@@ -71,14 +71,15 @@ function MetricsChart({ trainingResults }) {
           <BarChart data={data} margin={{ top: 16, right: 16, left: 4, bottom: 4 }}>
             <defs>
               <linearGradient id="ntlMseGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#f97316" />
+                <stop offset="0%" stopColor="#fb923c" />
+                <stop offset="50%" stopColor="#ea580c" />
                 <stop offset="100%" stopColor="#c2410c" />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
             <XAxis dataKey="name" tick={axisStyle} axisLine={{ stroke: gridColor }} tickLine={false} />
             <YAxis tick={axisStyle} axisLine={false} tickLine={false} />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(255, 152, 0, 0.08)" }} />
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(234, 88, 12, 0.08)" }} />
             <Legend wrapperStyle={{ color: "#d4d4d4", fontSize: 12 }} />
             <Bar dataKey="MSE" name="MSE" fill="url(#ntlMseGrad)" radius={[6, 6, 0, 0]} />
           </BarChart>
@@ -91,15 +92,16 @@ function MetricsChart({ trainingResults }) {
           <BarChart data={data} margin={{ top: 16, right: 16, left: 4, bottom: 4 }}>
             <defs>
               <linearGradient id="ntlR2Grad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#ffb74d" />
-                <stop offset="100%" stopColor="#ff9800" />
+                <stop offset="0%" stopColor="#34d399" />
+                <stop offset="50%" stopColor="#10b981" />
+                <stop offset="100%" stopColor="#059669" />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
             <XAxis dataKey="name" tick={axisStyle} axisLine={{ stroke: gridColor }} tickLine={false} />
             <YAxis domain={[0, 1]} tick={axisStyle} axisLine={false} tickLine={false} />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(255, 152, 0, 0.08)" }} />
-            <Legend wrapperStyle={{ color: "#94a3b8", fontSize: 12 }} />
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(16, 185, 129, 0.08)" }} />
+            <Legend wrapperStyle={{ color: "#d4d4d4", fontSize: 12 }} />
             <Bar dataKey="R2" name="R²" fill="url(#ntlR2Grad)" radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>

@@ -98,6 +98,14 @@
 .ntl-sidebar__footer {
   margin-top: auto;
   padding-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ntl-sidebar__foot-card--brand {
+  font-size: 0.7rem;
+  text-align: center;
 }
 
 .ntl-sidebar__foot-card {

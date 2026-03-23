@@ -96,29 +96,29 @@ function App() {
   return (
     <DashboardLayout topbar={<Topbar status={topbarStatus} statusLabel={topbarLabel} />}>
       <DashboardPage
-        eda={eda}
-        trainingResults={trainingResults}
-        modelType={modelType}
-        setModelType={setModelType}
-        maxDepth={maxDepth}
-        setMaxDepth={setMaxDepth}
-        nEstimators={nEstimators}
-        setNEstimators={setNEstimators}
-        rfMaxDepth={rfMaxDepth}
-        setRfMaxDepth={setRfMaxDepth}
-        randomState={randomState}
-        setRandomState={setRandomState}
-        training={training}
-        cleaning={cleaning}
-        cleaned={cleaned}
-        onUploadSuccess={handleUploadSuccess}
-        onUploadLoadingChange={setUploadBusy}
-        handleClean={handleClean}
-        handleTrain={handleTrain}
-        targetCol={targetCol}
-        setTargetCol={setTargetCol}
-        apiBaseUrl={API_BASE_URL}
-      />
+          eda={eda}
+          trainingResults={trainingResults}
+          modelType={modelType}
+          setModelType={setModelType}
+          maxDepth={maxDepth}
+          setMaxDepth={setMaxDepth}
+          nEstimators={nEstimators}
+          setNEstimators={setNEstimators}
+          rfMaxDepth={rfMaxDepth}
+          setRfMaxDepth={setRfMaxDepth}
+          randomState={randomState}
+          setRandomState={setRandomState}
+          training={training}
+          cleaning={cleaning}
+          cleaned={cleaned}
+          onUploadSuccess={handleUploadSuccess}
+          onUploadLoadingChange={setUploadBusy}
+          handleClean={handleClean}
+          handleTrain={handleTrain}
+          targetCol={targetCol}
+          setTargetCol={setTargetCol}
+          apiBaseUrl={API_BASE_URL}
+        />
     </DashboardLayout>
   );
 }
